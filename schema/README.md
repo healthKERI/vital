@@ -157,6 +157,48 @@ The credential supports two edge patterns:
 
 **Purpose:** Establishes cryptographically verifiable business relationships between legal entities. This is the most complex credential, sitting at the top of the dependency chain and enabling sophisticated multi-party authorization scenarios.
 
+---
+
+### LegalEntitySubunitRoleDelegationvLEICredential.json
+
+**Schema SAID:** (Generated)
+
+**Description:** A delegation credential that allows a holder of a `LegalEntitySubunitRolevLEICredential` to delegate authority to another legal entity or subunit. Supports chained re-delegation with boolean control over whether further delegation is permitted.
+
+**Key Attributes:**
+- `i` - Delegate AID (the entity receiving delegated authority)
+- `dt` - Issuance date/time
+- `delegatorLEI` - LEI of the delegating legal entity (ISO 17442)
+- `delegateLEI` - LEI of the delegate (optional, required if delegate is a legal entity)
+- `policyDomain` - Must exactly match the source credential's policy domain
+- `endorsementCode` - Must exactly match the source credential's endorsement code
+- `canRedelegate` - Boolean flag; if true, delegate may further delegate authority; if false, this is terminal
+
+**Edge Relationships:**
+The credential supports two edge patterns via `oneOf`:
+1. **Initial delegation (role edge)** - References a `LegalEntitySubunitRolevLEICredential` for first-level delegation
+2. **Re-delegation (delegation edge)** - References another `LegalEntitySubunitRoleDelegationvLEICredential` for chained delegation (self-referential)
+
+Both edges use `I2I` operator requiring the issuer to be the issuee of the referenced credential.
+
+**Rules:**
+- `delegationPolicy` - Legal language about delegation constraints and chain validity
+- `usageDisclaimer` - Standard vLEI usage disclaimer
+- `issuanceDisclaimer` - Standard vLEI issuance disclaimer
+- `privacyDisclaimer` - IPEX/ACDC privacy considerations
+
+**Validation Rules:**
+1. **Initial delegation**: Issuer must be the issuee (`a.i`) of the referenced `LegalEntitySubunitRolevLEICredential`
+2. **Re-delegation**: Issuer must be the issuee (`a.i`) of the parent delegation credential AND parent must have `canRedelegate: true`
+3. **Policy domain match**: `policyDomain` and `endorsementCode` must exactly match the root `LegalEntitySubunitRolevLEICredential`
+4. **Chain validity**: All credentials in the chain must be valid, unexpired, and non-revoked
+
+**Dependencies:**
+- `LegalEntitySubunitRolevLEICredential` (for initial delegation)
+- `LegalEntitySubunitRoleDelegationvLEICredential` (for re-delegation, self-referential)
+
+**Purpose:** Enables hierarchical delegation of authority within the vLEI ecosystem. A role credential holder can delegate their authority to another entity, with explicit control over whether that delegation can be further extended. This supports use cases like supply chain authorization, partner delegation, and organizational authority distribution.
+
 ## Credential Chain Architecture
 
 The credentials form a dependency hierarchy designed to avoid circular SAID dependencies:
@@ -182,6 +224,26 @@ This layered architecture ensures that:
 2. No circular dependencies exist
 3. Credentials reference other credentials via edge blocks using already-computed SAIDs
 4. Trust chains can be verified by traversing edges upward
+
+### Delegation Chain
+
+The `LegalEntitySubunitRoleDelegationvLEICredential` enables delegation of authority from a role credential holder:
+
+```
+LegalEntitySubunitRolevLEICredential (source authority)
+    │
+    ├─── (role edge, I2I) ───────────────────────────┐
+    │                                                 │
+    v                                                 │
+LegalEntitySubunitRoleDelegationvLEICredential ◄─────┘
+    │  canRedelegate: true
+    │
+    ├─── (delegation edge, I2I) ─────────────────────┐
+    │                                                 │
+    v                                                 │
+LegalEntitySubunitRoleDelegationvLEICredential ◄─────┘
+       canRedelegate: false (terminal)
+```
 
 ## ACDC Structure
 

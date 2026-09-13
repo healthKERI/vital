@@ -9,5 +9,8 @@
   },
   "LegalEntitySubunitAgentvLEICredential": {
     "role": "LegalEntitySubunitRolevLEICredential"
+  },
+  "LegalEntitySubunitRoleDelegationvLEICredential": {
+    "role": "LegalEntitySubunitRolevLEICredential"
   }
 }
