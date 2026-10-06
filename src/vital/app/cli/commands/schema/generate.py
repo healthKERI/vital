@@ -9,12 +9,16 @@ import json
 from pathlib import Path
 
 from keri.core import coring
+from keri.core.scheming import Schemer
 
 parser = argparse.ArgumentParser(
     description="Generate SAIDS for schema and connect the SAIDs"
 )
 parser.add_argument(
     "--dir", "-d", help="localtion of the schema to generate", required=True
+)
+parser.add_argument(
+    "--oobi", "-o", help="output directory for renamed files suitable to upload as OOBI responses.", required=False
 )
 parser.set_defaults(handler=lambda args: handler(args), transferable=True)
 
@@ -29,6 +33,7 @@ def handler(args):
     Returns:
         None
     """
+    print(args.oobi)
     dir_path = args.dir
 
     print(f"Processing schemas in: {dir_path}")
@@ -75,6 +80,10 @@ def handler(args):
         print(f"  Saved to: {Path(schema_info['path']).name}")
 
     print(f"\nSuccessfully processed {len(schemas)} schemas")
+
+    if args.oobi:
+        write_oobi_files(args.oobi, schemas)
+        print(f"  Saved OOBI files to: {args.oobi}")
 
 
 def __load(p):
@@ -250,3 +259,12 @@ def populate_saids(
     d[idage] = coring.Saider(sad=d, code=code, label=idage).qb64
 
     return d
+
+def write_oobi_files(dir_path: str, schemas: dict):
+    for cred_type, schema_info in schemas.items():
+        schema = schema_info["schema"]
+        said = schema_info["said"]
+        schemer = Schemer(sed=schema)
+        s = open(Path(dir_path) / f"{said}", "w")
+        s.write(schemer.raw.decode("utf-8"))
+        s.close()

@@ -18,7 +18,7 @@ schema/
 │   ├── LegalEntityEngagementContextRolevLEICredential.json
 │   └── LegalEntityOfficialOrganizationalRolevLEICredential.json
 ├── QualificationAgentvLEICredential.json
-├── LegalEntitySubdivisionvLEICredential.json
+├── LegalEntitySubunitvLEICredential.json
 ├── LERAuthorizationvLEICredential.json
 ├── LegalEntityRolevLEICredential.json
 ├── ConnectionAuthorizationvLEICredential.json
@@ -53,29 +53,29 @@ The `GLEIF/` subdirectory contains the official GLEIF vLEI credential schemas. T
 
 ---
 
-### LegalEntitySubdivisionvLEICredential.json
+### LegalEntitySubunitvLEICredential.json
 
 **Schema SAID:** `EOvrvccCry9lWXMqdlnysBJ3JYUQg6wihIsLM1_dc-4U`
 
-**Description:** A credential issued to a Legal Entity Subdivision (department, division, branch office, etc.). This allows large organizations to create distinct verifiable identities for their organizational subdivisions.
+**Description:** A credential issued to a Legal Entity Subunit (department, division, branch office, etc.). This allows large organizations to create distinct verifiable identities for their organizational subunits.
 
 **Key Attributes:**
-- `i` - Issuee AID (the subdivision's KERI identifier)
+- `i` - Issuee AID (the subunit's KERI identifier)
 - `LEI` - The Legal Entity Identifier of the parent organization
 - `dt` - Issuance date/time
-- `subdivisionLegalName` - The official name of the subdivision (optional)
+- `subunitLegalName` - The official name of the subunit (optional)
 
 **Edge Relationships:**
 The credential supports two edge patterns:
-1. **Subdivision chain** - References another subdivision (for nested hierarchies)
+1. **Subunit chain** - References another subunit (for nested hierarchies)
 2. **Legal Entity chain** - References the parent Legal Entity vLEI credential (const: `ENPXp1vQzRF6JwIuS-mp2U8Uf1MoADoP_GqQ62VsDZWY`)
 
 **Rules:**
 - Usage and issuance disclaimers (matching GLEIF standards)
 
-**Dependencies:** Can depend on either a Legal Entity credential or another subdivision credential
+**Dependencies:** Can depend on either a Legal Entity credential or another subunit credential
 
-**Purpose:** Enables organizations to issue verifiable identities to subdivisions, creating organizational hierarchies within the vLEI ecosystem.
+**Purpose:** Enables organizations to issue verifiable identities to subunits, creating organizational hierarchies within the vLEI ecosystem.
 
 ---
 
@@ -91,16 +91,16 @@ The credential supports two edge patterns:
 - `dt` - Issuance date/time
 
 **Edge Relationships:**
-- `subdivision` - References a LegalEntitySubdivisionvLEICredential (const: `EOvrvccCry9lWXMqdlnysBJ3JYUQg6wihIsLM1_dc-4U`)
+- `subunit` - References a LegalEntitySubunitvLEICredential (const: `EOvrvccCry9lWXMqdlnysBJ3JYUQg6wihIsLM1_dc-4U`)
 
 **Rules:**
 - Usage, issuance, and privacy disclaimers
 - Privacy considerations note the responsibility to use IPEX protocol for privacy-preserving presentation
 
 **Dependencies:**
-- LegalEntitySubdivisionvLEICredential
+- LegalEntitySubunitvLEICredential
 
-**Purpose:** Authorizes the creation of role credentials within a specific subdivision, enabling delegated authority management.
+**Purpose:** Authorizes the creation of role credentials within a specific subunit, enabling delegated authority management.
 
 ---
 
@@ -125,7 +125,7 @@ The credential supports two edge patterns:
 
 **Dependencies:**
 - LERAuthorizationvLEICredential
-  - which depends on LegalEntitySubdivisionvLEICredential
+  - which depends on LegalEntitySubunitvLEICredential
 
 **Purpose:** Establishes verifiable roles within organizations, enabling role-based authorization for business processes and API access.
 
@@ -153,7 +153,7 @@ The credential supports two edge patterns:
 **Dependencies:**
 - Two LegalEntityRolevLEICredentials (grantee and grantor)
   - Each depends on LERAuthorizationvLEICredential
-    - which depends on LegalEntitySubdivisionvLEICredential
+    - which depends on LegalEntitySubunitvLEICredential
 
 **Purpose:** Establishes cryptographically verifiable business relationships between legal entities. This is the most complex credential, sitting at the top of the dependency chain and enabling sophisticated multi-party authorization scenarios.
 
@@ -207,10 +207,10 @@ The credentials form a dependency hierarchy designed to avoid circular SAID depe
 QualificationAgentvLEICredential (root - no dependencies)
     |
     v
-LegalEntitySubdivisionvLEICredential (depends on nothing in our schema)
+LegalEntitySubunitvLEICredential (depends on nothing in our schema)
     |
     v
-LERAuthorizationvLEICredential (depends on subdivision)
+LERAuthorizationvLEICredential (depends on subunit)
     |
     v
 LegalEntityRolevLEICredential (depends on auth)
@@ -293,10 +293,10 @@ The `schema-map.json` file defines the dependency relationships between credenti
 2. **Edge mappings** - Maps edge property names to referenced credential types
    ```json
    "LERAuthorizationvLEICredential": {
-     "subdivision": "LegalEntitySubdivisionvLEICredential"
+     "subunit": "LegalEntitySubunitvLEICredential"
    }
    ```
-   This tells the generator: "In the LERAuthorizationvLEICredential schema, the edge named 'subdivision' should have its `s.const` value set to the SAID of LegalEntitySubdivisionvLEICredential"
+   This tells the generator: "In the LERAuthorizationvLEICredential schema, the edge named 'subunit' should have its `s.const` value set to the SAID of LegalEntitySubunitvLEICredential"
 
 3. **Multiple edges** - Credentials can reference multiple other credentials
    ```json
@@ -310,9 +310,9 @@ The `schema-map.json` file defines the dependency relationships between credenti
 ```json
 {
   "QualificationAgentvLEICredential": {},
-  "LegalEntitySubdivisionvLEICredential": {},
+  "LegalEntitySubunitvLEICredential": {},
   "LERAuthorizationvLEICredential": {
-    "subdivision": "LegalEntitySubdivisionvLEICredential"
+    "subunit": "LegalEntitySubunitvLEICredential"
   },
   "LegalEntityRolevLEICredential": {
     "auth": "LERAuthorizationvLEICredential"
@@ -376,17 +376,17 @@ vital generate --dir ./schema
 ```
 Processing schemas in: ./schema
 Loaded 5 schemas
-Processing order: QualificationAgentvLEICredential -> LegalEntitySubdivisionvLEICredential -> LERAuthorizationvLEICredential -> LegalEntityRolevLEICredential -> ConnectionAuthorizationvLEICredential
+Processing order: QualificationAgentvLEICredential -> LegalEntitySubunitvLEICredential -> LERAuthorizationvLEICredential -> LegalEntityRolevLEICredential -> ConnectionAuthorizationvLEICredential
 
 Processing: QualificationAgentvLEICredential
   Updated 0 edge constraint(s)
   Generated SAID: EOQD1-1y-l3FawXRnc...
   Saved to: QualificationAgentvLEICredential.json
 
-Processing: LegalEntitySubdivisionvLEICredential
+Processing: LegalEntitySubunitvLEICredential
   Updated 0 edge constraint(s)
   Generated SAID: EOvrvccCry9lWXMqdl...
-  Saved to: LegalEntitySubdivisionvLEICredential.json
+  Saved to: LegalEntitySubunitvLEICredential.json
 
 Processing: LERAuthorizationvLEICredential
   Updated 1 edge constraint(s)

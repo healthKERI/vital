@@ -75,12 +75,12 @@ direction TB
 	    1 - 2 Rotation Keys
     }
 
-    class `Legal Entity Subdivision vLEI Credential` {
+    class `Legal Entity Subunit vLEI Credential` {
 	    LEI
-	    subdivisionName
+	    SubunitName
     }
 
-    class `Subdivision AID` {
+    class `Subunit AID` {
 	    2 Signing Keys
 	    2 Rotation Keys
 	    5 Witnesses
@@ -92,9 +92,9 @@ direction TB
 	    legalEntityRole
     }
 
-    class `Legal Entity Role Subdivision vLEI Credential` {
+    class `Legal Entity Role Subunit vLEI Credential` {
 	    LEI
-	    legalEntitySubdivisionRole
+	    legalEntitySubunitRole
     }
 
     class `Legal Entity Agent AID` {
@@ -108,12 +108,12 @@ direction TB
 	    agentName
     }
 
-    class `Legal Entity Subdivision Agent vLEI Credential` {
+    class `Legal Entity Subunit Agent vLEI Credential` {
 	    LEI
-	    subdivisionAgentName
+	    SubunitAgentName
     }
 
-    class `Legal Entity Subdivision Agent AID` {
+    class `Legal Entity Subunit Agent AID` {
 	    1 Signing Key
 	    1 Rotation Key
 	    5 Witnesses
@@ -131,14 +131,14 @@ direction TB
 	<<AID>> `Qualification Agent AID`
 	<<vLEICredential>> `ECR Authorization vLEI Credential`
 	<<AID>> `Legal Entity AID`
-	<<vLEICredential>> `Legal Entity Subdivision vLEI Credential`
-	<<AID>> `Subdivision AID`
+	<<vLEICredential>> `Legal Entity Subunit vLEI Credential`
+	<<AID>> `Subunit AID`
 	<<vLEICredential>> `LESR Authorization vLEI Credential`
-	<<vLEICredential>> `Legal Entity Role Subdivision vLEI Credential`
+	<<vLEICredential>> `Legal Entity Role Subunit vLEI Credential`
 	<<AID>> `Legal Entity Agent AID`
 	<<vLEICredential>> `Legal Entity Agent vLEI Credential`
-	<<vLEICredential>> `Legal Entity Subdivision Agent vLEI Credential`
-	<<AID>> `Legal Entity Subdivision Agent AID`
+	<<vLEICredential>> `Legal Entity Subunit Agent vLEI Credential`
+	<<AID>> `Legal Entity Subunit Agent AID`
 
     `GLEIF Root AID` --> `GLEIF External AID` : delegatesTo
     `GLEIF Root AID` --> `GLEIF Internal AID` : delegatesTo
@@ -158,32 +158,32 @@ direction TB
     `ECR Authorization vLEI Credential` ..> `QVI AID` : issuedTo
     `ECR Authorization vLEI Credential` <..> `Legal Entity vLEI Credential` : chainedTo
     `ECR Authorization vLEI Credential` <..> `Engagement Context Role vLEI Credential` : chainedTo
-    `Legal Entity AID` ..> `Legal Entity Subdivision vLEI Credential` : issues
-    `Legal Entity Subdivision vLEI Credential` ..> `Subdivision AID` : issuedTo
-    `Legal Entity Subdivision vLEI Credential` <..> `Legal Entity vLEI Credential` : chainedTo
+    `Legal Entity AID` ..> `Legal Entity Subunit vLEI Credential` : issues
+    `Legal Entity Subunit vLEI Credential` ..> `Subunit AID` : issuedTo
+    `Legal Entity Subunit vLEI Credential` <..> `Legal Entity vLEI Credential` : chainedTo
     `Legal Entity AID` ..> `Engagement Context Role vLEI Credential` : issues
     `Legal Entity AID` ..> `LESR Authorization vLEI Credential` : issues
     `LESR Authorization vLEI Credential` ..> `QVI AID` : issuedTo
-    `QVI AID` ..> `Legal Entity Role Subdivision vLEI Credential` : issues
-    `Legal Entity Role Subdivision vLEI Credential` ..> `Subdivision AID` : issuedTo
-    `Legal Entity Role Subdivision vLEI Credential` <..> `Legal Entity Subdivision vLEI Credential` : chainedTo
-    `Legal Entity Role Subdivision vLEI Credential` <..> `LESR Authorization vLEI Credential` : chainedTo
+    `QVI AID` ..> `Legal Entity Role Subunit vLEI Credential` : issues
+    `Legal Entity Role Subunit vLEI Credential` ..> `Subunit AID` : issuedTo
+    `Legal Entity Role Subunit vLEI Credential` <..> `Legal Entity Subunit vLEI Credential` : chainedTo
+    `Legal Entity Role Subunit vLEI Credential` <..> `LESR Authorization vLEI Credential` : chainedTo
     `ECR Person AID` ..> `Legal Entity Agent vLEI Credential` : issues
     `Legal Entity Agent vLEI Credential` ..> `Legal Entity Agent AID` : issuedTo
     `Legal Entity Agent vLEI Credential` <..> `Engagement Context Role vLEI Credential` : chainedTo
-    `Subdivision AID` ..> `Legal Entity Subdivision Agent vLEI Credential` : issues
-    `Legal Entity Subdivision Agent vLEI Credential` -- `Legal Entity Subdivision Agent AID`
-    `Legal Entity Subdivision Agent vLEI Credential` <..> `Legal Entity Role Subdivision vLEI Credential` : chainedTo
+    `Subunit AID` ..> `Legal Entity Subunit Agent vLEI Credential` : issues
+    `Legal Entity Subunit Agent vLEI Credential` -- `Legal Entity Subunit Agent AID`
+    `Legal Entity Subunit Agent vLEI Credential` <..> `Legal Entity Role Subunit vLEI Credential` : chainedTo
 
 	class `Qualification Agent vLEI Credential`:::Peach
 	class `Qualification Agent AID`:::Peach
-	class `Legal Entity Subdivision vLEI Credential`:::Peach
-	class `Subdivision AID`:::Peach
+	class `Legal Entity Subunit vLEI Credential`:::Peach
+	class `Subunit AID`:::Peach
 	class `LESR Authorization vLEI Credential`:::Peach
-	class `Legal Entity Role Subdivision vLEI Credential`:::Peach
+	class `Legal Entity Role Subunit vLEI Credential`:::Peach
 	class `Legal Entity Agent AID`:::Peach
 	class `Legal Entity Agent vLEI Credential`:::Peach
-	class `Legal Entity Subdivision Agent vLEI Credential`:::Peach
-	class `Legal Entity Subdivision Agent AID`:::Peach
+	class `Legal Entity Subunit Agent vLEI Credential`:::Peach
+	class `Legal Entity Subunit Agent AID`:::Peach
 
 	classDef Peach :,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D```
