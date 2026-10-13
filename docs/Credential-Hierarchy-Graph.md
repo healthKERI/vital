@@ -92,7 +92,7 @@ direction TB
 	    legalEntityRole
     }
 
-    class `Legal Entity Role Subunit vLEI Credential` {
+    class `Legal Entity Subunit Role vLEI Credential` {
 	    LEI
 	    legalEntitySubunitRole
     }
@@ -108,7 +108,7 @@ direction TB
 	    agentName
     }
 
-    class `Legal Entity Subunit Agent vLEI Credential` {
+    class `Legal Entity Subunit Agent Role vLEI Credential` {
 	    LEI
 	    SubunitAgentName
     }
@@ -134,10 +134,10 @@ direction TB
 	<<vLEICredential>> `Legal Entity Subunit vLEI Credential`
 	<<AID>> `Subunit AID`
 	<<vLEICredential>> `LESR Authorization vLEI Credential`
-	<<vLEICredential>> `Legal Entity Role Subunit vLEI Credential`
+	<<vLEICredential>> `Legal Entity Subunit Role vLEI Credential`
 	<<AID>> `Legal Entity Agent AID`
 	<<vLEICredential>> `Legal Entity Agent vLEI Credential`
-	<<vLEICredential>> `Legal Entity Subunit Agent vLEI Credential`
+	<<vLEICredential>> `Legal Entity Subunit Agent Role vLEI Credential`
 	<<AID>> `Legal Entity Subunit Agent AID`
 
     `GLEIF Root AID` --> `GLEIF External AID` : delegatesTo
@@ -156,34 +156,36 @@ direction TB
     `Qualification Agent AID` ..> `QVI AID` : delegatesTo
     `Legal Entity AID` ..> `ECR Authorization vLEI Credential` : issues
     `ECR Authorization vLEI Credential` ..> `QVI AID` : issuedTo
-    `ECR Authorization vLEI Credential` <..> `Legal Entity vLEI Credential` : chainedTo
-    `ECR Authorization vLEI Credential` <..> `Engagement Context Role vLEI Credential` : chainedTo
+    `ECR Authorization vLEI Credential` ..> `Legal Entity vLEI Credential` : chainedTo
+    `Engagement Context Role vLEI Credential` ..> `ECR Authorization vLEI Credential` : chainedTo
     `Legal Entity AID` ..> `Legal Entity Subunit vLEI Credential` : issues
     `Legal Entity Subunit vLEI Credential` ..> `Subunit AID` : issuedTo
-    `Legal Entity Subunit vLEI Credential` <..> `Legal Entity vLEI Credential` : chainedTo
+    `Legal Entity Subunit vLEI Credential` ..> `Legal Entity vLEI Credential` : chainedTo
+    `Legal Entity Subunit vLEI Credential` ..> `Legal Entity Subunit vLEI Credential` : chainedTo (parent subunit)
     `Legal Entity AID` ..> `Engagement Context Role vLEI Credential` : issues
     `Legal Entity AID` ..> `LESR Authorization vLEI Credential` : issues
     `LESR Authorization vLEI Credential` ..> `QVI AID` : issuedTo
-    `QVI AID` ..> `Legal Entity Role Subunit vLEI Credential` : issues
-    `Legal Entity Role Subunit vLEI Credential` ..> `Subunit AID` : issuedTo
-    `Legal Entity Role Subunit vLEI Credential` <..> `Legal Entity Subunit vLEI Credential` : chainedTo
-    `Legal Entity Role Subunit vLEI Credential` <..> `LESR Authorization vLEI Credential` : chainedTo
+    `QVI AID` ..> `Legal Entity Subunit Role vLEI Credential` : issues
+    `Legal Entity Subunit Role vLEI Credential` ..> `Subunit AID` : issuedTo
+    `LESR Authorization vLEI Credential` ..> `Legal Entity vLEI Credential` : chainedTo (le)
+    `LESR Authorization vLEI Credential` ..> `Legal Entity Subunit vLEI Credential` : chainedTo (subunit)
+    `Legal Entity Subunit Role vLEI Credential` ..> `LESR Authorization vLEI Credential` : chainedTo
     `ECR Person AID` ..> `Legal Entity Agent vLEI Credential` : issues
     `Legal Entity Agent vLEI Credential` ..> `Legal Entity Agent AID` : issuedTo
-    `Legal Entity Agent vLEI Credential` <..> `Engagement Context Role vLEI Credential` : chainedTo
-    `Subunit AID` ..> `Legal Entity Subunit Agent vLEI Credential` : issues
-    `Legal Entity Subunit Agent vLEI Credential` -- `Legal Entity Subunit Agent AID`
-    `Legal Entity Subunit Agent vLEI Credential` <..> `Legal Entity Role Subunit vLEI Credential` : chainedTo
+    `Legal Entity Agent vLEI Credential` ..> `Engagement Context Role vLEI Credential` : chainedTo
+    `Subunit AID` ..> `Legal Entity Subunit Agent Role vLEI Credential` : issues
+    `Legal Entity Subunit Agent Role vLEI Credential` ..> `Legal Entity Subunit Agent AID` : issuedTo
+    `Legal Entity Subunit Agent Role vLEI Credential` ..> `Legal Entity Subunit Role vLEI Credential` : chainedTo
 
 	class `Qualification Agent vLEI Credential`:::Peach
 	class `Qualification Agent AID`:::Peach
 	class `Legal Entity Subunit vLEI Credential`:::Peach
 	class `Subunit AID`:::Peach
 	class `LESR Authorization vLEI Credential`:::Peach
-	class `Legal Entity Role Subunit vLEI Credential`:::Peach
+	class `Legal Entity Subunit Role vLEI Credential`:::Peach
 	class `Legal Entity Agent AID`:::Peach
 	class `Legal Entity Agent vLEI Credential`:::Peach
-	class `Legal Entity Subunit Agent vLEI Credential`:::Peach
+	class `Legal Entity Subunit Agent Role vLEI Credential`:::Peach
 	class `Legal Entity Subunit Agent AID`:::Peach
 
 	classDef Peach :,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D,stroke-width:1px,stroke-dasharray:none,stroke:#FBB35A,fill:#FFEFDB,color:#8F632D```
