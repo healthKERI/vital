@@ -36,6 +36,11 @@ dev = [
     "mypy>=1.13.0",
     "black>=24.0.0",
 ]
+# Server dependencies
+server = [
+    "falcon>=4.0.0",
+    "uvicorn[standard]>=0.30.0",
+]
 
 [dependency-groups]
 dev = []
@@ -56,6 +61,7 @@ Homepage = "https://github.com/healthKERI/vital"
 
 [project.scripts]
 vital = "vital.app.cli.vital:main"
+vital-server = "vital.app.server.app:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
